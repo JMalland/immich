@@ -1,4 +1,4 @@
-name: CLI Build
+name: CLI Builds
 on:
   push:
     branches: [main]
