@@ -1,4 +1,4 @@
-name: immich-prod
+name: immich-production
 
 services:
   immich-server:
