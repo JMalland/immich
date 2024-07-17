@@ -26,6 +26,7 @@ services:
       - redis
       - database
     restart: always
+    tty: true
 
   immich-machine-learning:
     container_name: immich_machine_learning
