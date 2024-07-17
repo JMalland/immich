@@ -82,7 +82,7 @@ jobs:
         if: ${{ !github.event.pull_request.head.repo.fork }}
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: jmalland
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate docker image tags
@@ -93,7 +93,7 @@ jobs:
             # Disable latest tag
             latest=false
           images: |
-            name=ghcr.io/${{ github.repository_owner }}/${{matrix.image}}
+            name=ghcr.io/jmalland/${{matrix.image}}
             name=altran1502/${{matrix.image}},enable=${{ github.event_name == 'release' }}
           tags: |
             # Tag with branch name
@@ -111,7 +111,7 @@ jobs:
             # Essentially just ignore the cache output (PR can't write to registry cache)
             echo "cache-to=type=local,dest=/tmp/discard,ignore-error=true" >> $GITHUB_OUTPUT
           else
-            echo "cache-to=type=registry,mode=max,ref=ghcr.io/${{ github.repository_owner }}/immich-build-cache:${{ matrix.image }}" >> $GITHUB_OUTPUT
+            echo "cache-to=type=registry,mode=max,ref=ghcr.io/jmalland/immich-build-cache:${{ matrix.image }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Build and push image
@@ -122,7 +122,7 @@ jobs:
           platforms: ${{ matrix.platforms }}
           # Skip pushing when PR from a fork
           push: ${{ !github.event.pull_request.head.repo.fork }}
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/immich-build-cache:${{matrix.image}}
+          cache-from: type=registry,ref=ghcr.io/jmalland/immich-build-cache:${{matrix.image}}
           cache-to: ${{ steps.cache-target.outputs.cache-to }}
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
